@@ -1,0 +1,35 @@
+FEMI
+1000
+2000
+3000
+
+FEMII
+1100-1115
+2100-2115
+3100-3115
+
+FEMIII
+1200-1295 1312-1535
+2200-2295 2312-2535
+3200-3295 3312-3535
+
+FEMIII aparcada
+1296-1311
+2296-2311
+3296-3311
+
+FREE TIME 1 (G + incrustación)
+100 4700
+
+FREE TIME 2 (free time + viento servicio)
+4800-4907
+
+SIN RODETE
+4100 4400-4415
+4200 4500-4515
+4300 4600-4615
+
+MONTAJE APARCADA (erection)
+4001-4024
+
+*NOTA: tener en cuenta que puede haber "huecos" entre los paquetes de numeros de combinaciones
