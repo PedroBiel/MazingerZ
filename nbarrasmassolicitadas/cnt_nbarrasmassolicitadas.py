@@ -13,7 +13,9 @@ __email__ = pbiel@taimweser.com
 
 from casosfem.dts_fem import CasosFEM
 # from barramassolicitada.tablemodel import PandasModel
-from barramassolicitada.dts_barramassolicitada import BarraMasSolicitada
+# from barramassolicitada.dts_barramassolicitada import BarraMasSolicitada
+from nbarrasmassolicitadas.dts_nbarrasmassolicitadas import NBarrasMax
+from nbarrasmassolicitadas.tablemodel import PandasModel
 
 
 class CntNBarraMasSolicitadas:
@@ -45,9 +47,9 @@ class CntNBarraMasSolicitadas:
 
             # Modelo
             df = self.get_dataframe_db()
-            n_barras = NBarrasMax(df)  # TODO Crear dts_nbarrasmax
-            df_n_barras_1 = n_barras.dataframe_max_fem1()
-            model_1 = self.get_modelo(df_n_barras)
+            n_barras = NBarrasMax(df)  # TODO Crear dts_nbarrasmax para las n barras
+            df_n_barras_1 = n_barras.mas_solicitadas_1()
+            model_1 = self.get_modelo(df_n_barras_1)
 
             # Salida en el diálogo.
             caso = 1
@@ -114,3 +116,11 @@ class CntNBarraMasSolicitadas:
         db_idxmax = barra.mas_solicitada(df_db)
 
         return db_idxmax
+
+    def get_modelo(self, df):
+        """Getter del modelo con los datos del DataFrame."""
+
+        model = PandasModel(df)
+
+        return model
+

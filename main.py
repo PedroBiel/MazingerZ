@@ -283,6 +283,7 @@ class MainWindow(QMainWindow):
         self.cnt_distr_acum = CntDiagramaDistribucionAcumulada(self)
         self.cnt_cajas = CntDiagramaCajas(self)
         self.cnt_barra = CntBarraMasSolicitada(self)
+        self.cnt_n_barras = CntNBarraMasSolicitadas(self)
 
         # Eventos para importar la base de datos.
         aleatorio = True
@@ -327,8 +328,8 @@ class MainWindow(QMainWindow):
         self.btn_barra_fem3.clicked.connect(self.cnt_barra.mas_solicitada_3)
 
         # Eventos para las n barras más solicitadas.
-        self.self.btn_n_barras_fem1.clicked.connect(
-            self.cnt_n_barras_mas_solicitadas_1
+        self.btn_n_barras_fem1.clicked.connect(
+            self.cnt_n_barras.n_mas_solicitadas_1
         )
 
 
@@ -439,6 +440,11 @@ class MainWindow(QMainWindow):
             parent=self, caso=caso, pd_obj=pd_obj
         )
         self.dlg_barra_mas_solicitada.show()
+
+    def call_dialogo_n_barras(self, df, caso, model):
+        """Llama al diálogo NBarrasMasSolicitadas."""
+
+        # TODO Crear diálogo NBarrasMasSolicitadas tal como en call_dialogo_describe
 
     # Cerrar la aplicación.
     def cierra_aplicacion(self):

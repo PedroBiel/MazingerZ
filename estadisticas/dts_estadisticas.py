@@ -25,7 +25,7 @@ class Estadisticas:
         :param df: pandas DataFrame ;  Datos de las tensiones.
         """
 
-        self.df = df
+        self.df = df.copy()
         self.casos_fem = CasosFEM(self.df)
         self._df = None
 
@@ -60,7 +60,6 @@ class Estadisticas:
         df3 = self.dataframe_describe(caso)
 
         return df3
-
 
     def dataframe_describe(self, caso: int):
         """
