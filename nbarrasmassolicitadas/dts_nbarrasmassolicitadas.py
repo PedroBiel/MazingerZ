@@ -11,22 +11,26 @@ __email__ = pbiel@taimweser.com
 """
 
 
+import numpy as np
+
 from casosfem.dts_fem import CasosFEM
 
 
 class NBarrasMax:
     """Fórmula para el cálculo de los datos de las n barras más solicitadas."""
 
-    def __init__(self, df):
+    def __init__(self, df, n_barras):
         """
         Sea df un DataFrame de pandas con los datos para el cálculo de las
         barras más solicitadas, obtiene los valores correspondientes.
 
         :param df: pandas DataFrame ; Datos para el cálculo de las barras más
                                       solicitadas.
+        :param n_barras: int ; Nº de barras más solicitadas a mostrar.
         """
 
         self.df = df.copy()
+        self.n = int(n_barras)
         self.casos_fem = CasosFEM(self.df)
         self._df = None
 
@@ -39,10 +43,35 @@ class NBarrasMax:
 
         caso = 1
         df1 = self.dataframe_n_barras(caso)
-        print('\ndf1')
-        print(df1)
+        df1 = df1.drop_duplicates('Barra')
 
+        return df1.head(self.n)
 
+    def mas_solicitadas_2(self):
+        """
+        Datos relativos a las n barras más solicitadas de los casos FEM 2.
+        :param df : pandas DataFrame ; Datos para el cálculo de las barras más
+                                       solicitadas.
+        """
+
+        caso = 2
+        df1 = self.dataframe_n_barras(caso)
+        df1 = df1.drop_duplicates('Barra')
+
+        return df1.head(self.n)
+
+    def mas_solicitadas_3(self):
+        """
+        Datos relativos a las n barras más solicitadas de los casos FEM 3.
+        :param df : pandas DataFrame ; Datos para el cálculo de las barras más
+                                       solicitadas.
+        """
+
+        caso = 3
+        df1 = self.dataframe_n_barras(caso)
+        df1 = df1.drop_duplicates('Barra')
+
+        return df1.head(self.n)
 
     def dataframe_n_barras(self, caso: int):
         """
@@ -61,11 +90,12 @@ class NBarrasMax:
         else:
             print('Oops!')
 
-        cols = ['Barra', 'Seccion', 'Caso', 'Mises', 'Ratio']
+        cols = ['Modelo', 'Barra', 'Seccion', 'Caso', 'Mises', 'Ratio']
         df_n_barras = self._df.sort_values(ascending=False, by='Ratio')
         df_n_barras = df_n_barras.drop_duplicates('Barra')
+        df_n_barras = np.round(df_n_barras, decimals=2)
 
-        return df_n_barras
+        return df_n_barras[cols]
 
 
 

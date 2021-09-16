@@ -35,6 +35,7 @@ from diagramacajas.cnt_cajas import CntDiagramaCajas
 from barramassolicitada.cnt_barramassolicitada import CntBarraMasSolicitada
 from barramassolicitada.dlg_barramassolicitada import DlgBarraMasSolicitada
 from nbarrasmassolicitadas.cnt_nbarrasmassolicitadas import CntNBarraMasSolicitadas
+from nbarrasmassolicitadas.dlg_nbarrasmassolicitadas import DlgNBarrasMasSolicitadas
 
 class MainWindow(QMainWindow):
 
@@ -92,6 +93,7 @@ class MainWindow(QMainWindow):
         self.bign_1_color = ''  # str; Color del Big Number para label.
         self.bign_2_color = ''  # str; Color del Big Number para label.
         self.bign_3_color = ''  # str; Color del Big Number para label.
+        self.n_barras = 10  # int; Nº de barras más solicitadas a mostrar.
 
         # QObjects.
         self.lbl_titulo = self.labelTitulo
@@ -232,6 +234,7 @@ class MainWindow(QMainWindow):
         self.lne_n_barras.setAlignment(Qt.AlignCenter)
         validator = QIntValidator(1, 20, self)  # Mínimo 1, máximo 20 barras.
         self.lne_n_barras.setValidator(validator)
+        self.lne_n_barras.setText('10')
         self.btn_n_barras_fem1 = self.pushButtonNBarrasFEM1
         self.btn_n_barras_fem2 = self.pushButtonNBarrasFEM2
         self.btn_n_barras_fem3 = self.pushButtonNBarrasFEM3
@@ -284,9 +287,10 @@ class MainWindow(QMainWindow):
         self.cnt_cajas = CntDiagramaCajas(self)
         self.cnt_barra = CntBarraMasSolicitada(self)
         self.cnt_n_barras = CntNBarraMasSolicitadas(self)
+        self.dlg_n_barras_mas_solicitadas = DlgNBarrasMasSolicitadas(self)
 
         # Eventos para importar la base de datos.
-        aleatorio = True
+        aleatorio = False
         if aleatorio:
             self.btn_importar.clicked.connect(self.cnt_importa_db._sqlite_df)
         else:
@@ -330,6 +334,12 @@ class MainWindow(QMainWindow):
         # Eventos para las n barras más solicitadas.
         self.btn_n_barras_fem1.clicked.connect(
             self.cnt_n_barras.n_mas_solicitadas_1
+        )
+        self.btn_n_barras_fem2.clicked.connect(
+            self.cnt_n_barras.n_mas_solicitadas_2
+        )
+        self.btn_n_barras_fem3.clicked.connect(
+            self.cnt_n_barras.n_mas_solicitadas_3
         )
 
 
@@ -409,29 +419,29 @@ class MainWindow(QMainWindow):
         )
         self.dlg_describe.show()
 
-    def call_dialogo_describe_1(self, df, caso, model):
-        """Llama al diálogo Describe."""
-
-        self.dlg_describe = DlgDescribe(
-            parent=self, df=df, caso=caso, model=model
-        )
-        self.dlg_describe.show()
-
-    def call_dialogo_describe_2(self, df, caso, model):
-        """Llama al diálogo Describe."""
-
-        self.dlg_describe = DlgDescribe(
-            parent=self, df=df, caso=caso, model=model
-        )
-        self.dlg_describe.show()
-
-    def call_dialogo_describe_3(self, df, caso, model):
-        """Llama al diálogo Describe."""
-
-        self.dlg_describe = DlgDescribe(
-            parent=self, df=df, caso=caso, model=model
-        )
-        self.dlg_describe.show()
+    # def call_dialogo_describe_1(self, df, caso, model):
+    #     """Llama al diálogo Describe."""
+    #
+    #     self.dlg_describe = DlgDescribe(
+    #         parent=self, df=df, caso=caso, model=model
+    #     )
+    #     self.dlg_describe.show()
+    #
+    # def call_dialogo_describe_2(self, df, caso, model):
+    #     """Llama al diálogo Describe."""
+    #
+    #     self.dlg_describe = DlgDescribe(
+    #         parent=self, df=df, caso=caso, model=model
+    #     )
+    #     self.dlg_describe.show()
+    #
+    # def call_dialogo_describe_3(self, df, caso, model):
+    #     """Llama al diálogo Describe."""
+    #
+    #     self.dlg_describe = DlgDescribe(
+    #         parent=self, df=df, caso=caso, model=model
+    #     )
+    #     self.dlg_describe.show()
 
     def call_dialogo_barra_mas_solicitada(self, caso, pd_obj):
         """Llama al diálogo BarraMasSolicitada."""
@@ -446,6 +456,11 @@ class MainWindow(QMainWindow):
 
         # TODO Crear diálogo NBarrasMasSolicitadas tal como en call_dialogo_describe
 
+        self.dlg_n_barras_mas_solicitadas = DlgNBarrasMasSolicitadas(
+            parent=self, df=df, caso=caso, model=model
+        )
+        self.dlg_n_barras_mas_solicitadas.show()
+
     # Cerrar la aplicación.
     def cierra_aplicacion(self):
         """Cierra todas las ventanas de la aplicación."""
@@ -453,6 +468,7 @@ class MainWindow(QMainWindow):
         try:
             self.dlg_describe.close()
             self.dlg_barra_mas_solicitada.close()
+            self.dlg_n_barras_mas_solicitadas.close()
             self.plt.close('all')  #TODO cerrar todas las gráficas.
 
 

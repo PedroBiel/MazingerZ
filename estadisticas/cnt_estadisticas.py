@@ -58,7 +58,7 @@ class CntEstadisticas:
 
             # Status bar.
             text = 'Generando las estadísticas descriptivas de los casos FEM ' \
-                   'I. '
+                   'I.'
             self.v.status_bar(text)
 
             # Modelo.
@@ -82,7 +82,7 @@ class CntEstadisticas:
 
             # Status bar.
             text = 'Generando las estadísticas descriptivas de los casos FEM ' \
-                   'II. '
+                   'II.'
             self.v.status_bar(text)
 
             # Modelo.
@@ -106,7 +106,7 @@ class CntEstadisticas:
 
             # Status bar.
             text = 'Generando las estadísticas descriptivas de los casos FEM ' \
-                   'III. '
+                   'III.'
             self.v.status_bar(text)
 
             # Modelo.

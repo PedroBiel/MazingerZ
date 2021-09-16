@@ -31,6 +31,11 @@ class CntNBarraMasSolicitadas:
 
         return self.v.df_db.copy()
 
+    def get_n_barras(self):
+        """Getter del número de barras más solicitadas a mostrar."""
+
+        return self.v.lne_n_barras.text()
+
     def n_mas_solicitadas_1(self):
         """Valores de las n barras más solicitadas para FEM 1."""
 
@@ -40,15 +45,11 @@ class CntNBarraMasSolicitadas:
             text = 'Generando datos de las n barras más solicitadas para FEM I.'
             self.v.status_bar(text)
 
-            # # Datos.
-            # caso = 1
-            # db1_idxmax = self.mas_solicitada(caso)
-            # self.v.call_dialogo_barra_mas_solicitada(caso, db1_idxmax)
-
             # Modelo
+            n_barras = self.get_n_barras()
             df = self.get_dataframe_db()
-            n_barras = NBarrasMax(df)  # TODO Crear dts_nbarrasmax para las n barras
-            df_n_barras_1 = n_barras.mas_solicitadas_1()
+            n_barras_max = NBarrasMax(df, n_barras)
+            df_n_barras_1 = n_barras_max.mas_solicitadas_1()
             model_1 = self.get_modelo(df_n_barras_1)
 
             # Salida en el diálogo.
@@ -56,43 +57,57 @@ class CntNBarraMasSolicitadas:
             self.v.call_dialogo_n_barras(df_n_barras_1, caso, model_1)
 
             # Status bar.
-            text = 'N barras más solicitadas para FEM I.'
+            text = 'Las ' + str(n_barras) + ' barras más solicitadas para FEM I.'
             self.v.status_bar(text)
 
-    def mas_solicitada_2(self):
+    def n_mas_solicitadas_2(self):
         """Valores de la barra más solicitada para FEM 2."""
 
         if self.v.df_db.empty == False:
-
             # Status bar.
-            text = 'Generando datos de la barra más solicitada para FEM II.'
+            text = 'Generando datos de las n barras más solicitadas para FEM ' \
+                    'II.'
             self.v.status_bar(text)
 
-            # Datos.
+            # Modelo
+            n_barras = self.get_n_barras()
+            df = self.get_dataframe_db()
+            n_barras_max = NBarrasMax(df, n_barras)
+            df_n_barras_2 = n_barras_max.mas_solicitadas_2()
+            model_2 = self.get_modelo(df_n_barras_2)
+
+            # Salida en el diálogo.
             caso = 2
-            db2_idxmax = self.mas_solicitada(caso)
-            self.v.call_dialogo_barra_mas_solicitada(caso, db2_idxmax)
+            self.v.call_dialogo_n_barras(df_n_barras_2, caso, model_2)
 
             # Status bar.
-            text = 'Barra más solicitada para FEM II.'
+            text = 'Las ' + str(
+                n_barras) + ' barras más solicitadas para FEM II.'
             self.v.status_bar(text)
 
-    def mas_solicitada_3(self):
+    def n_mas_solicitadas_3(self):
         """Valores de la barra más solicitada para FEM 1."""
 
         if self.v.df_db.empty == False:
-
             # Status bar.
-            text = 'Generando datos de la barra más solicitada para FEM III.'
+            text = 'Generando datos de las n barras más solicitadas para FEM ' \
+                   'III.'
             self.v.status_bar(text)
 
-            # Datos.
+            # Modelo
+            n_barras = self.get_n_barras()
+            df = self.get_dataframe_db()
+            n_barras_max = NBarrasMax(df, n_barras)
+            df_n_barras_3 = n_barras_max.mas_solicitadas_3()
+            model_3 = self.get_modelo(df_n_barras_3)
+
+            # Salida en el diálogo.
             caso = 3
-            db3_idxmax = self.mas_solicitada(caso)
-            self.v.call_dialogo_barra_mas_solicitada(caso, db3_idxmax)
+            self.v.call_dialogo_n_barras(df_n_barras_3, caso, model_3)
 
             # Status bar.
-            text = 'Barra más solicitada para FEM III.'
+            text = 'Las ' + str(
+                n_barras) + ' barras más solicitadas para FEM III.'
             self.v.status_bar(text)
 
     def mas_solicitada(self, caso):

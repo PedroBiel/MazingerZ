@@ -15,26 +15,28 @@ from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QDialog, QAbstractScrollArea
 
 
-class DlgBarraMasSolicitada(QDialog):
-    """Diálogo BarraMasSolicitada."""
+class DlgNBarrasMasSolicitadas(QDialog):
+    """Diálogo NBarrasMasSolicitadas."""
 
-    def __init__(self, parent=None, caso=None, pd_obj=None):
+    def __init__(self, parent=None, df=None, caso=None, model=None):
         """
         Inicializa el DataFrame con los datos y el modelo
         :param parent: None.
+        :param df: pandas DataFrame.
         :param caso: int ; caso FEM.
-        :param pd_obj: pandas Object ; datos de la barra más solicitada.
+        :param model: QTableView ; modelo del table view.
         """
 
         QDialog.__init__(self, parent)
-        uic.loadUi('barramassolicitada/vst_nbarrasmassolicitadas.ui', self)
+        uic.loadUi('nbarrasmassolicitadas/vst_nbarrasmassolicitadas.ui', self)
 
+        self.df = df
         self.caso = caso
-        self.pd_obj = pd_obj
+        self.model = model
 
         # Widgets PyQt5.
         self.lbl = self.label
-        self.txt = self.textEdit
+        self.tbl = self.tableView
         self.btn_cerrar = self.pushButton
 
         fuente_label = QFont()
@@ -43,28 +45,28 @@ class DlgBarraMasSolicitada(QDialog):
         self.lbl.setFont(fuente_label)
 
         # Título de la ventana.
-        self.setWindowTitle('Barra más solicitada')
+        self.setWindowTitle('N barras más solicitadas')
 
         # Alto y anchomínima de la ventana.
-        self.setMinimumHeight(500)
-        self.setMinimumWidth(450)
+        self.setMinimumHeight(450)
+        self.setMinimumWidth(650)
 
         # Texto de etiquetas.
         if self.caso == 1:
             self.lbl.setText(
-                'Barra más solicitada de los casos FEM I.'
+                'Las barras más solicitadas de los casos FEM I.'
             )
         elif self.caso == 2:
             self.lbl.setText(
-                'Barra más solicitada de los casos FEM II.'
+                'Las barras más solicitadas de los casos FEM II.'
             )
         elif self.caso == 3:
             self.lbl.setText(
-                'Barra más solicitada de los casos FEM III.'
+                'Las barras más solicitadas de los casos FEM III.'
             )
 
-        # Texto.
-        self.txt.setText(str(self.pd_obj))
+        # Modelo de la tabla.
+        self.tbl.setModel(self.model)
 
         # Botones.
         self.btn_cerrar.setText('Cerrar')

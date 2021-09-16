@@ -1,0 +1,15 @@
+App MazingerZ
+=============
+versión 0.0.0
+
+Activar entorno virtual en CMD Prompt
+-------------------------------------
+> cd "C:\Users\pc175\Anaconda3\envs\mazingerzenv"  # Directorio del entorno virtual
+> conda activate mazingerzenv
+
+
+Ejecuta
+-------
+> cd "H:\COMUN MT\5.CE\Codigo fuente\Python\Apps\MazingerZ\MazingerZ_0_0_0"  # Directorio del código
+> python main.py
+
