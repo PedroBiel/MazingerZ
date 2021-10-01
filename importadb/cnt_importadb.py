@@ -65,7 +65,11 @@ class CntImportaDBDF:
         """Getter del DataFrame con datos aleatorios para pruebas."""
 
         tensiones_random = TensionesRandom()
-        self.v.df_db = tensiones_random.dataframe_tensiones()
+        df_db_temp = tensiones_random.dataframe_tensiones()
+        if self.v.barras:  # Filtra las barras de estudio.
+            self.v.df_db = df_db_temp[df_db_temp['Barra'].isin(self.v.barras)]
+        else:  # La lista de barras de estudio está vacía.
+            self.v.df_db = df_db_temp
 
     def sqlite_df(self):
         """DataFrame con los datos de la base de datos SQLite."""
@@ -95,7 +99,13 @@ class CntImportaDBDF:
 
                 df_astype = DFAstype(df_db)
                 df_db = df_astype.replace_astype()
-                self.set_dataframe(df_db)
+
+                if self.v.barras:  # Filtra las barras de estudio.
+                    self.set_dataframe(
+                        df_db[df_db['Barra'].isin(self.v.barras)]
+                    )
+                else:  # La lista de barras de estudio está vacía.
+                    self.set_dataframe(df_db)
 
                 print('\nsqlite_df.df_db')
                 print(self.v.df_db)

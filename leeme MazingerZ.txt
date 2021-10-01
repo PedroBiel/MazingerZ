@@ -4,7 +4,7 @@ versión 0.0.0
 
 Activar entorno virtual en CMD Prompt
 -------------------------------------
-> cd "C:\Users\pc175\Anaconda3\envs\mazingerzenv"  # Directorio del entorno virtual
+C:\Users\pc175\Anaconda3\envs\mazingerzenv  # Directorio del entorno virtual
 > conda activate mazingerzenv
 
 

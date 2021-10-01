@@ -11,7 +11,6 @@ __version__ = 0.0.0
 __email__ = pbiel@taimweser.com
 """
 
-
 import matplotlib as plt
 import pandas as pd
 import qtmodern.styles
@@ -21,21 +20,28 @@ import sqlite3
 import sys
 
 from PyQt5 import uic
-from PyQt5.QtCore import QLibraryInfo, QLocale, Qt, QTranslator
-from PyQt5.QtGui import QFont, QIcon, QIntValidator, QKeySequence
+from PyQt5.QtCore import QLibraryInfo, QLocale, QRegExp, Qt, QTranslator
+from PyQt5.QtGui import (
+    QFont, QIcon, QIntValidator, QKeySequence, QRegExpValidator
+)
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from barrasestudio.cnt_barrasestudio import CntBarrasEstudio
 from importadb.cnt_importadb import CntImportaDBDF
 from bignumber.cnt_bignumber import CntBigN
 from estadisticas.cnt_estadisticas import CntEstadisticas
 from estadisticas.dlg_describe import DlgDescribe
 from diagramadispersion.cnt_dispersion import CntDiagramaDispersion
-from diagramadistribucionacumulada.cnt_distribucionacumulada import CntDiagramaDistribucionAcumulada
+from diagramadistribucionacumulada.cnt_distribucionacumulada import \
+    CntDiagramaDistribucionAcumulada
 from diagramacajas.cnt_cajas import CntDiagramaCajas
 from barramassolicitada.cnt_barramassolicitada import CntBarraMasSolicitada
 from barramassolicitada.dlg_barramassolicitada import DlgBarraMasSolicitada
-from nbarrasmassolicitadas.cnt_nbarrasmassolicitadas import CntNBarraMasSolicitadas
-from nbarrasmassolicitadas.dlg_nbarrasmassolicitadas import DlgNBarrasMasSolicitadas
+from nbarrasmassolicitadas.cnt_nbarrasmassolicitadas import \
+    CntNBarraMasSolicitadas
+from nbarrasmassolicitadas.dlg_nbarrasmassolicitadas import \
+    DlgNBarrasMasSolicitadas
+
 
 class MainWindow(QMainWindow):
 
@@ -59,6 +65,7 @@ class MainWindow(QMainWindow):
         self.sqlite3 = sqlite3
 
         # Parámetros.
+        self.barras = []  # list int; barras de estudio.
         self.df_db = pd.DataFrame()  # pandas DataFrame; datos.
         self.nombre_db = ''  # str; nombre de la base de datos.
         self.big_n = 0  # float; The Big Number.
@@ -97,12 +104,18 @@ class MainWindow(QMainWindow):
 
         # QObjects.
         self.lbl_titulo = self.labelTitulo
+        self.barras_estudio = self.lineEditBarrasEstudio
+        regex = QRegExp("[CATOBYcatoby0-9 ]+")
+        validator = QRegExpValidator(regex)
+        self.barras_estudio.setValidator(validator)
+
         # - Importar base de datos.
         self.btn_importar = self.pushButtonImportar
         self.btn_importar.setToolTip('Importa base de datos | Ctrl+I')
         self.btn_importar.setShortcut(QKeySequence('Ctrl+I'))
         self.lbl_nombre_db = self.labelNombreDB
         self.lbl_importar = self.labelImportar
+
         # - The Big Numbers.
         self.lbl_big_n = self.labelBigNumber
         self.lbl_big_n.setToolTip(
@@ -243,11 +256,6 @@ class MainWindow(QMainWindow):
         self.btn_cerrar = self.pushButtonCerrar
         self.btn_cerrar.setToolTip('Cierra la aplicación | Ctrl+Q')
 
-
-
-
-
-
         fuente_titulo = QFont()
         fuente_titulo.setFamily('Consolas')
         fuente_titulo.setPointSize(16)
@@ -275,9 +283,8 @@ class MainWindow(QMainWindow):
         self.lbl_bign_2.setFont(fuente_big_n)
         self.lbl_bign_3.setFont(fuente_big_n)
 
-
-
         # Instancias de clase.
+        self.cnt_barras_estudio = CntBarrasEstudio(self)
         self.cnt_importa_db = CntImportaDBDF(self)
         self.cnt_big_n = CntBigN(self)
         self.cnt_estadisticas = CntEstadisticas(self)
@@ -288,6 +295,10 @@ class MainWindow(QMainWindow):
         self.cnt_barra = CntBarraMasSolicitada(self)
         self.cnt_n_barras = CntNBarraMasSolicitadas(self)
         self.dlg_n_barras_mas_solicitadas = DlgNBarrasMasSolicitadas(self)
+
+        # Eventos de las barras de estudio.
+        self.barras_estudio.textChanged.connect(
+            self.cnt_barras_estudio.barras_de_estudio)
 
         # Eventos para importar la base de datos.
         aleatorio = False
@@ -342,11 +353,8 @@ class MainWindow(QMainWindow):
             self.cnt_n_barras.n_mas_solicitadas_3
         )
 
-
         # Eventos para cerrar la aplicación.
         self.btn_cerrar.clicked.connect(self.cierra_aplicacion)
-
-
 
     # Salidas PyQt5.
     def status_bar(self, text):
@@ -404,12 +412,9 @@ class MainWindow(QMainWindow):
         self.lbl_bign_2.setText(str(self.bign_2))
         self.lbl_bign_3.setText(str(self.bign_3))
 
-
-
         # self.label.setStyleSheet(self.big_n_color)
         # self.label.setFont(Qlabel('Consolas', 18))
         # self.label.setText(str(self.big_n))
-
 
     def call_dialogo_describe(self, df, caso, model):
         """Llama al diálogo Describe."""
@@ -454,8 +459,6 @@ class MainWindow(QMainWindow):
     def call_dialogo_n_barras(self, df, caso, model):
         """Llama al diálogo NBarrasMasSolicitadas."""
 
-        # TODO Crear diálogo NBarrasMasSolicitadas tal como en call_dialogo_describe
-
         self.dlg_n_barras_mas_solicitadas = DlgNBarrasMasSolicitadas(
             parent=self, df=df, caso=caso, model=model
         )
@@ -469,34 +472,22 @@ class MainWindow(QMainWindow):
             self.dlg_describe.close()
             self.dlg_barra_mas_solicitada.close()
             self.dlg_n_barras_mas_solicitadas.close()
-            self.plt.close('all')  #TODO cerrar todas las gráficas.
-
+            self.plt.close('all')  # TODO cerrar todas las gráficas.
 
             self.close()
-        except:
+        except Exception as e:
+            print(f'Oops! {e}')
             self.close()
-
-
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
 
     qt_translator = QTranslator()
     qt_translator.load(
         'qtbase_' + QLocale.system().name(),
         QLibraryInfo.location(QLibraryInfo.TranslationsPath)
-        )
+    )
     app.installTranslator(qt_translator)
 
     # Qt modern

@@ -39,7 +39,7 @@ class CntNBarraMasSolicitadas:
     def n_mas_solicitadas_1(self):
         """Valores de las n barras más solicitadas para FEM 1."""
 
-        if self.v.df_db.empty == False:
+        if not self.v.df_db.empty:
 
             # Status bar.
             text = 'Generando datos de las n barras más solicitadas para FEM I.'
@@ -110,27 +110,27 @@ class CntNBarraMasSolicitadas:
                 n_barras) + ' barras más solicitadas para FEM III.'
             self.v.status_bar(text)
 
-    def mas_solicitada(self, caso):
-        """
-        Valores de la barra más solicitada.
-        caso : int ; caso FEM
-        """
-
-        df_db = ''
-        casos_fem = CasosFEM(self.v.df_db)
-        if caso == 1:
-            df_db = casos_fem.dataframe_fem1()
-        elif caso == 2:
-            df_db = casos_fem.dataframe_fem2()
-        elif caso == 3:
-            df_db = casos_fem.dataframe_fem3()
-        else:
-            print('Oops!')
-
-        barra = BarraMasSolicitada()
-        db_idxmax = barra.mas_solicitada(df_db)
-
-        return db_idxmax
+    # def mas_solicitada(self, caso):
+    #     """
+    #     Valores de la barra más solicitada.
+    #     caso : int ; caso FEM
+    #     """
+    #
+    #     df_db = ''
+    #     casos_fem = CasosFEM(self.v.df_db)
+    #     if caso == 1:
+    #         df_db = casos_fem.dataframe_fem1()
+    #     elif caso == 2:
+    #         df_db = casos_fem.dataframe_fem2()
+    #     elif caso == 3:
+    #         df_db = casos_fem.dataframe_fem3()
+    #     else:
+    #         print('Oops!')
+    #
+    #     barra = BarraMasSolicitada()
+    #     db_idxmax = barra.mas_solicitada(df_db)
+    #
+    #     return db_idxmax
 
     def get_modelo(self, df):
         """Getter del modelo con los datos del DataFrame."""

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>812</width>
-    <height>616</height>
+    <width>828</width>
+    <height>692</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -25,8 +25,8 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>611</width>
-      <height>21</height>
+      <width>600</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="font">
@@ -44,8 +44,8 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>800</x>
-      <y>20</y>
+      <x>640</x>
+      <y>10</y>
       <width>31</width>
       <height>31</height>
      </rect>
@@ -57,8 +57,8 @@
    <widget class="QPushButton" name="pushButtonCerrar">
     <property name="geometry">
      <rect>
-      <x>700</x>
-      <y>20</y>
+      <x>710</x>
+      <y>50</y>
       <width>75</width>
       <height>23</height>
      </rect>
@@ -71,7 +71,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>50</y>
+      <y>90</y>
       <width>761</width>
       <height>511</height>
      </rect>
@@ -748,13 +748,82 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QWidget" name="">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>50</y>
+      <width>664</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="labelBarraEstudio">
+       <property name="minimumSize">
+        <size>
+         <width>150</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>150</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Barras de estudio:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEditBarrasEstudio">
+       <property name="minimumSize">
+        <size>
+         <width>400</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>200</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Barras con las que hacer el estudio.&lt;/p&gt;&lt;p&gt;Formato de la lista de barras según RSA.&lt;/p&gt;&lt;p&gt;Ejemplos:&lt;/p&gt;&lt;p&gt;&amp;quot;&amp;quot; -&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;todas las barras&lt;/span&gt;&lt;/p&gt;&lt;p&gt;100A103 200A212CA3 -&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;barras 100, 101, 102, 103, 200, 203, 206, 209, 2012&lt;/span&gt;&lt;/p&gt;&lt;p&gt;100to103 200to212By3 -&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;barras 100, 101, 102, 103, 200, 203, 206, 209, 2012&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonActualizar">
+       <property name="minimumSize">
+        <size>
+         <width>100</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>100</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Actualizar</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>812</width>
+     <width>828</width>
      <height>21</height>
     </rect>
    </property>
